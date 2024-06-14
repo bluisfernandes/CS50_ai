@@ -170,7 +170,7 @@ class Maze():
                     frontier.add(child)
 
 
-    def output_image(self, filename, show_solution=True, show_explored=False):
+    def output_image(self, filename, show_solution=True, show_explored=False, print_position=False):
         from PIL import Image, ImageDraw
         cell_size = 50
         cell_border = 2
@@ -218,6 +218,12 @@ class Maze():
                     fill=fill
                 )
 
+                # Draw cell number
+                if print_position:
+                    draw.text(((j + 0.5) * cell_size, (i + 0.5) * cell_size), f'{i},{j}',
+                    fill=(200,200, 200)
+                )
+
         img.save(filename)
 
 
@@ -232,4 +238,4 @@ m.solve()
 print("States Explored:", m.num_explored)
 print("Solution:")
 m.print()
-m.output_image("maze.png", show_explored=True)
+m.output_image("maze.png", show_explored=True, print_position=True)
