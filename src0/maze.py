@@ -152,6 +152,12 @@ class Maze():
                 actions.reverse()
                 cells.reverse()
                 self.solution = (actions, cells)
+                
+                # Print all actions until the goal
+                print('Actions:')
+                for action in actions:
+                    print(action)
+                print()
                 return
 
             # Mark node as explored
