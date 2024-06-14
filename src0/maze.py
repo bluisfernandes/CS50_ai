@@ -81,8 +81,17 @@ class Maze():
         self.solution = None
 
 
-    def print(self):
+    def print(self, print_actions=False):
         solution = self.solution[1] if self.solution is not None else None
+
+        # Print all actions until the goal
+        actions = self.solution[0] if self.solution is not None else None
+        if print_actions and actions:
+            print('Actions:')
+            for action in actions:
+                print(action)
+            print()
+        
         print()
         for i, row in enumerate(self.walls):
             for j, col in enumerate(row):
@@ -152,12 +161,6 @@ class Maze():
                 actions.reverse()
                 cells.reverse()
                 self.solution = (actions, cells)
-                
-                # Print all actions until the goal
-                print('Actions:')
-                for action in actions:
-                    print(action)
-                print()
                 return
 
             # Mark node as explored
@@ -237,5 +240,5 @@ print("Solving...")
 m.solve()
 print("States Explored:", m.num_explored)
 print("Solution:")
-m.print()
-m.output_image("maze.png", show_explored=True, print_position=True)
+m.print(print_actions=False)
+m.output_image("maze.png", show_explored=True, print_position=False)
