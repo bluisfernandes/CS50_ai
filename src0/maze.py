@@ -81,6 +81,16 @@ class Maze():
         self.solution = None
 
 
+        # Determine a distance from the goal
+        self.dist_to_goal = []
+        for i in range(self.height):
+            row = []
+            for j in range(self.width):
+                row.append(abs(i - self.goal[0]) + abs(j - self.goal[1]))
+            self.dist_to_goal.append(row)
+        
+
+
     def print(self, print_actions=False):
         solution = self.solution[1] if self.solution is not None else None
 
@@ -173,11 +183,11 @@ class Maze():
                     frontier.add(child)
 
 
-    def output_image(self, filename, show_solution=True, show_explored=False, print_position=False):
+    def output_image(self, filename, show_solution=True, show_explored=False, print_position=False, show_distance=False):
         from PIL import Image, ImageDraw
         cell_size = 50
         cell_border = 2
-
+        
         # Create a blank canvas
         img = Image.new(
             "RGBA",
@@ -227,6 +237,13 @@ class Maze():
                     fill=(200,200, 200)
                 )
 
+                # Draw distance to goal
+                if show_distance:
+                    draw.text(((j + 0.5) * cell_size, (i + 0.5) * cell_size), f'{self.dist_to_goal[i][j]}', 
+                    font_size=200,
+                    anchor='ms'
+                )
+
         img.save(filename)
 
 
@@ -241,4 +258,4 @@ m.solve()
 print("States Explored:", m.num_explored)
 print("Solution:")
 m.print(print_actions=False)
-m.output_image("maze.png", show_explored=True, print_position=False)
+m.output_image("maze.png", show_explored=True, print_position=False, show_distance=True)
