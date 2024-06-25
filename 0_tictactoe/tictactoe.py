@@ -22,8 +22,22 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
-
+    # count # of plays of each players
+    x_count = 0
+    o_count = 0
+    for row in board:
+        for value in row:
+            if value == X: 
+                x_count += 1
+            elif value == O:
+                o_count += 1
+    
+    # choose the next player. The first one is always 'X'.
+    if o_count >= x_count:
+        return X
+    else:
+        return O
+    
 
 def actions(board):
     """
@@ -50,7 +64,7 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    # raise NotImplementedError
 
 
 def utility(board):
