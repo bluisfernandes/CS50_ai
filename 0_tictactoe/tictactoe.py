@@ -70,9 +70,21 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    # check each row
+    for i in range(3):
+        if board[i][0] == board[i][1] == board[i][2] != EMPTY:
+            return board[i][0]
+    # check each columns
+    for j in range(3):
+        if board[0][j] == board[1][j] == board[2][j] != EMPTY:
+            return board[0][j]
+    # check diagonal
+    if board[0][0] == board[1][1] == board[2][2] or board[2][0] == board[1][1] == board[0][2]:
+        return board[1][1]
+    else:
+        return None
 
-
+        
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
