@@ -47,7 +47,7 @@ def actions(board):
     for i, row in enumerate(board):
         for j, value in enumerate(row):
             if value == EMPTY:
-                act.add((i,j))
+                act.add((i, j))
     return act
 
 
