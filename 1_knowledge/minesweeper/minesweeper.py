@@ -105,6 +105,7 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be mines.
         """
+        # If the count of mines is equal to the number of cells, all cells are mines
         if len(self.cells) == self.count:
             return self.cells
 
@@ -112,6 +113,7 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be safe.
         """
+        # if no mines, all cells are safe
         if self.count == 0:
             return self.cells
 
