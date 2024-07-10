@@ -189,8 +189,8 @@ class MinesweeperAI():
         for i in range(cell[0] - 1, cell[0] + 2):
             for j in range(cell[1] - 1, cell[1] + 2):
 
-                # ignore the cell itself and those already taken
-                if (i, j) == cell or (i,j) in self.moves_made:
+                # ignore the cell itself 
+                if (i, j) == cell:
                     continue
                 
                 # add all neighbors 
