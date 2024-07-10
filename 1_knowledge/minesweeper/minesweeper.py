@@ -253,5 +253,4 @@ class MinesweeperAI():
                 if (i, j) not in self.moves_made and (i, j) not in self.mines:
                     left_moves.add((i,j))
         if left_moves:
-            import random
-            return left_moves[random.randint(0, len(left_moves) - 1)]
+            return left_moves.pop()
