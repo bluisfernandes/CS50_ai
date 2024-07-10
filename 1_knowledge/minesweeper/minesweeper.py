@@ -247,4 +247,11 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
-        raise NotImplementedError
+        left_moves = set()
+        for i in range(self.width):
+            for j in range(self.height):
+                if (i, j) not in self.moves_made and (i, j) not in self.mines:
+                    left_moves.add((i,j))
+        if left_moves:
+            import random
+            return left_moves[random.randint(0, len(left_moves) - 1)]
