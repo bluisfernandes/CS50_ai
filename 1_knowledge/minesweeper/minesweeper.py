@@ -180,6 +180,24 @@ class MinesweeperAI():
         self.safes.add(cell)
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
+    
+    def valid_neighbors(self, cell):
+        """
+        Returns all neighbors cells that have not been seen yet. 
+        """
+        neighbors = set()
+        for i in range(cell[0] - 1, cell[0] + 2):
+            for j in range(cell[1] - 1, cell[1] + 2):
+
+                # ignore the cell itself and those already taken
+                if (i, j) == cell or (i,j) in self.moves_made:
+                    continue
+                
+                # add all neighbors 
+                if 0 <= i < self.width and 0 <= j < self.height:
+                    neighbors.add((i, j))
+
+        return neighbors
 
     def add_knowledge(self, cell, count):
         """
@@ -196,7 +214,18 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
         """
-        raise NotImplementedError
+
+        # mark the cell as a move that has been made
+        self.moves_made.add(cell)
+    
+        # mark the cell as safe
+        self.safes.add(cell)       
+
+        # add a new sentence to the AI's knowledge base
+        # based on the value of `cell` and `count`
+        for sentence in self.knowledge:
+
+            self.knowledge.append(Sentence(cell, count))
 
     def make_safe_move(self):
         """
