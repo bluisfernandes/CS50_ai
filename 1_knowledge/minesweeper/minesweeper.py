@@ -108,6 +108,8 @@ class Sentence():
         # If the count of mines is equal to the number of cells, all cells are mines
         if len(self.cells) == self.count:
             return self.cells
+        else: 
+            return set()
 
     def known_safes(self):
         """
@@ -116,6 +118,8 @@ class Sentence():
         # if no mines, all cells are safe
         if self.count == 0:
             return self.cells
+        else: 
+            return set()
 
     def mark_mine(self, cell):
         """
