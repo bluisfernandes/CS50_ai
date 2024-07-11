@@ -219,19 +219,19 @@ class MinesweeperAI():
         if cells:
             sentence = Sentence(cells, count)
 
-            safe_cells = sentence.known_safes()
+            if sentence not in self.knowledge:
+                print(sentence)
+                self.knowledge.append(sentence)
+
+            safe_cells = sentence.known_safes().copy()
             if safe_cells:
                 for safe_cell in safe_cells:
                     self.mark_safe(safe_cell)
 
-            mine_cells = sentence.known_mines()
+            mine_cells = sentence.known_mines().copy()
             if mine_cells:
                 for mine_cell in mine_cells:
                     self.mark_mine(mine_cell)
-
-            if sentence not in self.knowledge:
-                print(sentence)
-                self.knowledge.append(sentence)
 
     def add_knowledge(self, cell, count):
         """
