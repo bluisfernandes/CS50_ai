@@ -257,12 +257,10 @@ class MinesweeperAI():
 
         # add a new sentence to the AI's knowledge base
         # based on the value of `cell` and `count`
-        for sentence in self.knowledge:
         neighbors = self.valid_neighbors(cell)
 
         self.remove_knows_mark_append(neighbors, count)
 
-            self.knowledge.append(Sentence(cell, count))
 
     def make_safe_move(self):
         """
