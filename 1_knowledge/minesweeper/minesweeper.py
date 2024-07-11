@@ -203,6 +203,36 @@ class MinesweeperAI():
 
         return neighbors
 
+    def remove_knows_mark_append(self, cells, count):
+        """
+        Auxiliar: removes knows cells, marks and appends to knowledge
+        """
+        # checks for known safe cells
+        cells = cells - self.safes
+
+        # checks for known mines in cells
+        count_mines = len(cells & self.mines)
+        if count_mines:
+            count -= count_mines
+        cells = cells - self.mines
+
+        if cells:
+            sentence = Sentence(cells, count)
+
+            safe_cells = sentence.known_safes()
+            if safe_cells:
+                for safe_cell in safe_cells:
+                    self.mark_safe(safe_cell)
+
+            mine_cells = sentence.known_mines()
+            if mine_cells:
+                for mine_cell in mine_cells:
+                    self.mark_mine(mine_cell)
+
+            if sentence not in self.knowledge:
+                print(sentence)
+                self.knowledge.append(sentence)
+
     def add_knowledge(self, cell, count):
         """
         Called when the Minesweeper board tells us, for a given
@@ -228,6 +258,9 @@ class MinesweeperAI():
         # add a new sentence to the AI's knowledge base
         # based on the value of `cell` and `count`
         for sentence in self.knowledge:
+        neighbors = self.valid_neighbors(cell)
+
+        self.remove_knows_mark_append(neighbors, count)
 
             self.knowledge.append(Sentence(cell, count))
 
