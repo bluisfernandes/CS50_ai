@@ -199,7 +199,8 @@ class MinesweeperAI():
                 
                 # add all neighbors 
                 if 0 <= i < self.width and 0 <= j < self.height:
-                    neighbors.add((i, j))
+                    if (i, j) not in self.moves_made:
+                        neighbors.add((i, j))
 
         return neighbors
     
@@ -209,7 +210,7 @@ class MinesweeperAI():
         """
         for sentence in self.knowledge:
             # marks as safes
-            safe_cells = sentence.known_safes().copy()
+            safe_cells = sentence.known_safes().copy() | self.safes
             if safe_cells:
                 for safe_cell in safe_cells:
                     self.mark_safe(safe_cell)
@@ -262,7 +263,7 @@ class MinesweeperAI():
         self.moves_made.add(cell)
     
         # mark the cell as safe
-        self.safes.add(cell)       
+        self.mark_safe(cell)       
 
         # add a new sentence to the AI's knowledge base
         # based on the value of `cell` and `count`
