@@ -287,7 +287,7 @@ class MinesweeperAI():
                         sentence = Sentence(new_cells, new_count)
                         if sentence not in self.knowledge:
                             self.knowledge.append(sentence)
-                            self.mark_and_update_knowledge()
+        self.mark_and_update_knowledge()
 
     def make_safe_move(self):
         """
