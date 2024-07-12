@@ -187,7 +187,7 @@ class MinesweeperAI():
     
     def valid_neighbors(self, cell):
         """
-        Returns all neighbors cells that have not been seen yet. 
+        Auxiliar: returns all neighbors cells that have not been seen yet. 
         """
         neighbors = set()
         for i in range(cell[0] - 1, cell[0] + 2):
@@ -202,6 +202,24 @@ class MinesweeperAI():
                     neighbors.add((i, j))
 
         return neighbors
+    
+    def mark_and_update_knowledge(self):
+        """
+        Auxiliar: marks all known cell as safe or mines
+        """
+        for sentence in self.knowledge:
+            # marks as safes
+            safe_cells = sentence.known_safes().copy()
+            if safe_cells:
+                for safe_cell in safe_cells:
+                    self.mark_safe(safe_cell)
+
+            # marks as mines
+            mine_cells = sentence.known_mines().copy()
+            if mine_cells:
+                for mine_cell in mine_cells:
+                    self.mark_mine(mine_cell)
+
 
     def remove_knows_mark_append(self, cells, count):
         """
@@ -222,16 +240,7 @@ class MinesweeperAI():
             if sentence not in self.knowledge:
                 print(sentence)
                 self.knowledge.append(sentence)
-
-            safe_cells = sentence.known_safes().copy()
-            if safe_cells:
-                for safe_cell in safe_cells:
-                    self.mark_safe(safe_cell)
-
-            mine_cells = sentence.known_mines().copy()
-            if mine_cells:
-                for mine_cell in mine_cells:
-                    self.mark_mine(mine_cell)
+                self.mark_and_update_knowledge()
 
     def add_knowledge(self, cell, count):
         """
@@ -261,6 +270,23 @@ class MinesweeperAI():
 
         self.remove_knows_mark_append(neighbors, count)
 
+        for i in range(len(self.knowledge)):
+            for j in range(len(self.knowledge)):
+                if i == j:
+                    continue
+
+                sentence_i = self.knowledge[i]
+                sentence_j = self.knowledge[j]
+
+                if sentence_i.cells <= sentence_j.cells and len(sentence_i.cells) > 0:
+                    new_cells = sentence_j.cells - sentence_i.cells
+                    if new_cells:
+                        new_count = sentence_j.count - sentence_i.count
+
+                        sentence = Sentence(new_cells, new_count)
+                        if sentence not in self.knowledge:
+                            self.knowledge.append(sentence)
+                            self.mark_and_update_knowledge()
 
     def make_safe_move(self):
         """
