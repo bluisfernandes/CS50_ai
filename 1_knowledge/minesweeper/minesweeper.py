@@ -237,7 +237,6 @@ class MinesweeperAI():
             sentence = Sentence(cells, count)
 
             if sentence not in self.knowledge:
-                print(sentence)
                 self.knowledge.append(sentence)
                 self.mark_and_update_knowledge()
 
